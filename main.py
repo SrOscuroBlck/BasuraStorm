@@ -1,7 +1,6 @@
 from TablaHashEspecial.tda_tabla_hash import *
 from TablaHashEspecial.tda_lista import *
 from FuncionesEspeciales.funciones_especiales import *
-
 import random
 
 tablaLegiones = crear_tabla(6)
@@ -13,7 +12,7 @@ legiones = ["TK", "CT", "TF", "FO", "FN", "FL"]
 
 numeros = []
 
-for i in range(2000):
+for i in range(1999):
     numero = generar_num_storm()
     while numero in numeros:
         numero = generar_num_storm()
@@ -26,6 +25,16 @@ for i in range(2000):
     }
     agregar_legion(tablaLegiones, stormtrooper)
     agregar_numeros(tablaNumeros, stormtrooper)
+    
+stormtrooper = {
+    "legion": "FN",
+    "numero": "2187",
+    "misiones": []    
+}
+
+agregar_legion(tablaLegiones, stormtrooper)
+agregar_numeros(tablaNumeros, stormtrooper)
+
 
 
 # Menu principal
@@ -35,9 +44,9 @@ while respuesta != 0:
         barrido_total(tablaLegiones)
     elif respuesta == 2:
         legion = input("Ingrese la legión del stormtrooper que desea eliminar: ")
-        numero = int(input("Ingrese el número de stormtrooper que desea eliminar: "))
-        posicion_legion = buscar_tabla_legion(tablaLegiones, legion)
-        posicion_numero = buscar_tabla_numeros(tablaNumeros, numero)
+        numero = input("Ingrese el número de stormtrooper que desea eliminar: ")
+        posicion_legion = funcion_hash_legion(legion)
+        posicion_numero = funcion_hash_numeros(numero, len(tablaNumeros))
         if posicion_legion is not None:
             eliminar(tablaLegiones[posicion_legion], numero)
             print("Se ha eliminado el stormtrooper ", legion, "-", numero, " de la lista de legiones")
@@ -57,12 +66,8 @@ while respuesta != 0:
                 filtrar_legion(tablaLegiones, legion)
             elif submenu_respuesta == 2:
                 legion = input("Ingrese la legión a la cual desea asignar la misión: ")
-                posicion_legion = buscar_tabla_legion(tablaLegiones, legion)
-                if posicion_legion is not None:
-                    mision = input("Ingrese la misión que desea asignar: ")
-                    asignar_mision_legion(tablaLegiones, legion, mision)
-                else:
-                    print("No se ha encontrado la legión ", legion, " en la tabla de legiones")
+                mision = input("Ingrese la misión que desea asignar: ")
+                asignar_mision_legion(tablaLegiones, legion, mision)
             else:
                 print("Opción incorrecta")
             submenu_respuesta = submenu()
@@ -70,16 +75,12 @@ while respuesta != 0:
         submenu_respuesta = submenu()
         while submenu_respuesta != 0:
             if submenu_respuesta == 1:
-                numero = int(input("Ingrese los tres últimos dígitos de Stormtroopers que desea buscar: "))
+                numero = input("Ingrese los tres últimos dígitos de Stormtroopers que desea buscar: ")
                 filtrar_numeros(tablaNumeros, numero)
             elif submenu_respuesta == 2:
-                numero = int(input("Ingrese el número al cual desea asignar la misión: "))
-                posicion_numero = buscar_tabla_numeros(tablaNumeros, numero)
-                if posicion_numero is not None:
-                    mision = input("Ingrese la misión que desea asignar: ")
-                    asignar_mision_numeros(tablaNumeros, numero, mision)
-                else:
-                    print("No se ha encontrado el número ", numero, " en la tabla de dígitos")
+                numero = input("Ingrese los tres últimos dígitos de Stormtroopers que desea asignarles la misión: ")
+                mision = input("Ingrese la misión que desea asignar: ")
+                asignar_mision_numeros(tablaNumeros, numero, mision)
             else:
                 print("Opción incorrecta")
             submenu_respuesta = submenu()
